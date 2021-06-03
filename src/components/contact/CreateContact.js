@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {createContact} from '../../actions/index';
+import {createContact} from'../../actions/index';
+import ContactForm from './ContactForm';
+import "../../sass/main.scss";
 
 class CreateContact extends Component {
     
-    createContact = () =>{
-     this.props.createContact({
-         name:'Miguel Martinez',
-         email:'miguelmartinez@gmail.com',
-         phone:'645-567-4443',
-         contactType:'personal'
-     })
+    onSubmit = (formValues) =>{
+     this.props.createContact(formValues);
     }
     render() {
         return (
-            <div>
-                Create Contact
-                <button onClick={this.createContact}>Create</button>
+            <div className="contact-form-container">
+               <h1 className="form-title">Create Contact</h1> 
+                
+                <ContactForm onSubmit = {this.onSubmit} />
+               
             </div>
         )
     }
 }
-
 
 
 export default connect(null,{createContact})(CreateContact);
