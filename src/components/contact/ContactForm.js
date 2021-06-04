@@ -6,6 +6,7 @@ class ContactForm extends Component {
    onSubmit = (formValues) =>{
    this.props.onSubmit(formValues);
    
+   
    }
    
     renderInput = (formProps) =>{
@@ -23,6 +24,7 @@ class ContactForm extends Component {
            <div className="input-radio">
             <input {...formProps.input} type = {formProps.type} />
             <label>{formProps.label} </label>
+            {this.renderError(formProps.meta)}
            </div>
        )
    }
@@ -75,6 +77,12 @@ const validate = (formValues) =>{
    {
        errors.phone = "Phone number cannot be empty";
    }
+
+   if(!formValues.personal)
+   {
+    errors.personal = "Contact type is required";
+   }
+
 
    return errors;
 }

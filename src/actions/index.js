@@ -1,5 +1,7 @@
 
+
 import contact from '../apis/contact';
+import history from '../history';
 
 export const signIn = (userId,userName) =>{
   return{
@@ -23,6 +25,13 @@ export const signOut = () =>{
     }
   }
 
+  export const fetchContact = (id) =>{
+    return async (dispatch) =>{
+      const response = await contact.get(`/contacts/${id}`);
+      dispatch({type:'FETCH_CONTACT',payload:response.data});
+    }
+  }
+
  
 
   export const createContact = (formValues) =>{
@@ -32,10 +41,18 @@ export const signOut = () =>{
      const response = await contact.post('/contacts',{...formValues,userId});
      console.log(response);
      dispatch({type:'CREATE_CONTACT', payload:response.data});
-
-    
+     history.push("/");
 
   }
+  }
+
+  export const editContact = (id,formValues) =>{
+    return async (dispatch) =>{
+       const response = await contact.patch(`contacts/${id}`,formValues);
+       dispatch({type:'EDIT_CONTACT',payload:response.data});
+
+       history.push("/");
+    }
   }
 
   

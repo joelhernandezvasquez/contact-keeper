@@ -3,11 +3,13 @@ import {connect} from 'react-redux';
 import {createContact} from'../../actions/index';
 import ContactForm from './ContactForm';
 import "../../sass/main.scss";
+import history from '../../history';
 
 class CreateContact extends Component {
     
     onSubmit = (formValues) =>{
      this.props.createContact(formValues);
+    
     }
     render() {
         return (

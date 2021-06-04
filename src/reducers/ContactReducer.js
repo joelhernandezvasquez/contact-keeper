@@ -5,7 +5,7 @@ export const contactReducer = (state={},action) =>
     switch(action.type)
     {
         case 'CREATE_CONTACT': {
-            console.log("inside de reducer");
+           
             return {...state,[action.payload.id]:action.payload}
         }
         
@@ -13,6 +13,15 @@ export const contactReducer = (state={},action) =>
          case 'FETCH_CONTACTS':{
         
             return {...state,..._.mapKeys(action.payload,'id')}
+         }
+
+         case 'FETCH_CONTACT':{
+        
+            return {...state,[action.payload.id]:action.payload}
+         }
+
+         case 'EDIT_CONTACT':{
+             return {...state,[action.payload.id]:action.payload}
          }
            
 
