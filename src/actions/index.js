@@ -16,7 +16,6 @@ export const signOut = () =>{
     }
   }
 
-  
 
   export const fetchContacts = () =>{
     return async (dispatch) =>{
@@ -32,7 +31,20 @@ export const signOut = () =>{
     }
   }
 
- 
+  export const fetchContactFiltered = (term) =>
+  {
+    return async (dispatch) =>{
+      const response = await contact.get('/contacts');
+     
+      dispatch({type:'FETCH_CONTACT_FILTERED',payload:response.data.filter(data => data.name.includes(term))});
+    }
+  }
+
+  export const clearContactFiltered = () =>{
+     return{
+       type:'CLEAR_FILTERED_CONTACT'
+     }
+  }
 
   export const createContact = (formValues) =>{
    

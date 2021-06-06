@@ -1,14 +1,29 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {fetchContacts} from '../../actions/index';
+import {fetchContacts,fetchContactFiltered,clearContactFiltered} from '../../actions/index';
 
 
 const ListContact = (props) => {
+    const [searchTerm,setSearchTerm] = useState("");
+
+    useEffect(() => {
+        props.fetchContacts();
+    }, [])
     
     useEffect(() => {
-      props.fetchContacts();
-    },[])
+      if(searchTerm)
+      {
+        props.fetchContactFiltered(searchTerm);
+        return;
+      }
+       
+        
+        if (searchTerm ===""){
+            props.clearContactFiltered();
+        }
+    
+    },[searchTerm])
 
     const renderAdmin = (userId,contactId) => {
      
@@ -23,9 +38,10 @@ const ListContact = (props) => {
     }
 }
 
-    const renderContactCard = () =>{ 
-
-        return props.contacts.map(contact =>{
+ 
+    const renderContactCard = (contacts) =>{ 
+      
+        return contacts.map(contact =>{
             return(
                 <div className="contact-card" key={contact.id}>
                    <div className= "contact-info">
@@ -34,20 +50,22 @@ const ListContact = (props) => {
                       <p> <i class="fa fa-phone" aria-hidden="true"></i>{contact.phone}</p>
 
                       {renderAdmin(contact.userId,contact.id)}
+
                       
                    </div>
                    <div className="contact-type contact-type-personal"> 
                     <p>{contact.contactType}</p> 
                    </div>
-    
+                   
                 </div>
     
             )
-        }) 
-        
-    
-}
+        })  
+       } 
 
+      
+       
+  
    const renderAddContactBtn = () =>{
       if(props.isSignedIn)
       { 
@@ -61,28 +79,26 @@ const ListContact = (props) => {
     return (
        
        <div className="container">
-            {/* it will change it to an input component */}
-          
+            <div className="input-field">
+                <input type ="text" value={searchTerm} onChange={(e) =>setSearchTerm(e.target.value)} placeholder="Filter Contacts..."/> 
+           </div>
          
-                <div className="input-field">
-                <input type ="text" placeholder="Filter Contacts..."/> 
-                </div>
-              
-         {renderAddContactBtn()}
-
-          {renderContactCard()}
+           {renderAddContactBtn()}
+           {props.contactsFiltered && props.contactsFiltered.length > 0? renderContactCard(props.contactsFiltered): renderContactCard(props.contacts) }
         </div>
           
          
     )
 }
 
+
 const mapStateToProps = (state) =>{
     
     return{
         contacts:Object.values(state.contacts),
+        contactsFiltered: state.contactFiltered.contacts,
         isSignedIn: state.auth.isSignedIn,
         currentUser:state.auth.userId
     }
 }
-export default connect(mapStateToProps,{fetchContacts}) (ListContact);
+export default connect(mapStateToProps,{fetchContacts,fetchContactFiltered,clearContactFiltered}) (ListContact);
