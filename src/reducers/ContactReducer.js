@@ -20,11 +20,12 @@ export const contactReducer = (state={},action) =>
             return {...state,[action.payload.id]:action.payload}
          }
 
-         
-        
 
          case 'EDIT_CONTACT':{
              return {...state,[action.payload.id]:action.payload}
+         }
+         case 'DELETE_CONTACT':{
+             return _.omit(state,action.payload)
          }
            
 

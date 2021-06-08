@@ -32,7 +32,7 @@ const ListContact = (props) => {
         return(
         <div className="btn-admin-container">
         <Link to={`/contacts/edit/${contactId}`} className="action-btn btn-edit">Edit</Link>
-        <Link to ="/contacts/delete" className="action-btn btn-delete">Delete</Link>
+        <Link to ={`/contacts/delete/${contactId}`} className="action-btn btn-delete">Delete</Link>
      </div>
       )
     }

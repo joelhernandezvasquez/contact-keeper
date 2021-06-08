@@ -66,6 +66,13 @@ export const signOut = () =>{
        history.push("/");
     }
   }
+ export const deleteContact = (id) =>{
 
+  return async (dispatch) =>{
+      await contact.delete(`contacts/${id}`);
+     dispatch({type:'DELETE_CONTACT',payload:id});
+     history.push('/')
+   }
+ }
   
 
